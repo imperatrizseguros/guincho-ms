@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Guincho MS · Imperatriz Seguros</title>
+<meta name="description" content="Guincho e auto socorro em Mato Grosso do Sul, do mais perto para o mais longe. Oferecimento Imperatriz Corretora de Seguros.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#4A4D51">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="img/icone-192.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Guincho MS">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<header class="topo">
+  <img src="img/logo-horizontal.svg" alt="Imperatriz Corretora de Seguros · 35 anos" class="logo">
+</header>
+
+<main>
+  <section class="hero">
+    <h1>Precisa de guincho?</h1>
+    <p>Guincho e auto socorro em Mato Grosso do Sul, do mais perto para o mais longe.</p>
+    <a href="#guinchos" class="pular">Não tem seguro? Ir direto para os guinchos ↓</a>
+  </section>
+
+  <!-- ---------------------------------------------------- seguradoras -->
+  <section class="bloco seguro">
+    <div class="bloco-cab">
+      <span class="num">1</span>
+      <div>
+        <h2>Tem seguro auto? Ligue primeiro para a sua seguradora.</h2>
+        <p>Na maioria das apólices o guincho já está incluído na assistência 24 horas — sem pagar à parte.</p>
+      </div>
+    </div>
+    <div id="seguradoras" class="seguradoras"></div>
+    <p class="miudo">Não sabe qual é a sua? Olhe o cartão ou o aplicativo do seguro — ou chame a gente no rodapé.</p>
+  </section>
+
+  <!-- ------------------------------------------------------ guinchos -->
+  <section class="bloco" id="guinchos">
+    <div class="bloco-cab">
+      <span class="num">2</span>
+      <div>
+        <h2>Sem seguro ou fora da cobertura: guincho particular</h2>
+        <p>Informações públicas do Google Maps. Combine o valor antes de o guincho sair.</p>
+      </div>
+    </div>
+
+    <button id="btn-local" class="btn-local">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="7"/></svg>
+      <span>Usar minha localização</span>
+    </button>
+    <div class="ou">ou escolha a cidade</div>
+    <select id="cidade" aria-label="Cidade"><option value="">Todas as cidades de MS</option></select>
+
+    <div class="filtros">
+      <label class="chip"><input type="checkbox" id="f-h24"> 24 horas</label>
+      <label class="chip"><input type="checkbox" id="f-zap"> WhatsApp</label>
+    </div>
+
+    <div class="alternar" role="tablist">
+      <button class="ativo" data-vista="lista" role="tab">Lista</button>
+      <button data-vista="mapa" role="tab">Mapa</button>
+    </div>
+
+    <p id="status" class="status" aria-live="polite"></p>
+    <div id="lista" class="lista"></div>
+    <div id="mapa-caixa" class="mapa-caixa" hidden><div id="mapa"></div></div>
+    <button id="mais" class="mais" hidden>Mostrar mais</button>
+  </section>
+
+  <!-- ------------------------------------------------------- instalar -->
+  <section id="instalar" class="bloco instalar" hidden>
+    <h2>Deixe no seu celular</h2>
+    <p id="instalar-texto">Toque em <b>Adicionar à tela inicial</b> e o guincho fica a um toque — funciona até sem sinal.</p>
+    <button id="btn-instalar" class="btn-local" hidden><span>Instalar</span></button>
+  </section>
+</main>
+
+<footer class="rodape">
+  <img src="img/concha.svg" alt="" class="concha">
+  <p class="assina">Oferecimento <b>Imperatriz Corretora de Seguros</b><br>Há 35 anos cuidando de seguros em Campo Grande.</p>
+  <div class="contato">
+    <a href="tel:+556733820100" class="btn-rod">(67) 3382-0100</a>
+    <a href="https://www.instagram.com/imperatrizseguros" target="_blank" rel="noopener" class="btn-rod">@imperatrizseguros</a>
+  </div>
+  <p class="aviso">Lista montada a partir de informações públicas do Google Maps. A Imperatriz não presta nem
+    responde pelo serviço dos guinchos listados; confira valores e condições direto com o prestador.
+    Distâncias em linha reta — pela estrada costuma ser um pouco mais. <span id="atualizado"></span></p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
