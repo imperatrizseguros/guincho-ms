@@ -81,12 +81,29 @@ function cartao(g) {
   </article>`;
 }
 
+// A lista so aparece depois de a pessoa dizer onde esta (GPS ou cidade):
+// ninguem precisa rolar 270 guinchos do estado inteiro para achar o seu.
+let escolheu = false;
+
+function mostrar() {
+  escolheu = true;
+  limite = 30;
+  $("#resultados").hidden = false;
+  desenhar();
+  $("#status").scrollIntoView({behavior: "smooth", block: "start"});
+}
+
 function desenhar() {
+  if (!escolheu) {
+    $("#status").textContent = todos.length
+      ? "Toque em “Usar minha localização” ou escolha a cidade e toque em “Ver guinchos”." : "";
+    return;
+  }
   const l = filtrados();
   const cidade = $("#cidade").value;
   $("#status").textContent = !todos.length ? ""
     : !l.length ? "Nenhum guincho com esses filtros. Tente tirar um filtro ou escolher outra cidade."
-    : voce ? `${l.length} guinchos, do mais perto para o mais longe.`
+    : voce ? `${l.length} guinchos${cidade ? " em " + cidade : ""}, do mais perto para o mais longe.`
     : `${l.length} guinchos${cidade ? " em " + cidade : " em MS"}. Use sua localização para ver o mais perto.`;
   $("#lista").innerHTML = l.slice(0, limite).map(cartao).join("");
   $("#mais").hidden = vista !== "lista" || l.length <= limite;
@@ -146,11 +163,10 @@ $("#btn-local").addEventListener("click", () => {
   rotulo.textContent = "Localizando…";
   navigator.geolocation.getCurrentPosition(pos => {
     voce = {lat: pos.coords.latitude, lon: pos.coords.longitude};
-    $("#cidade").value = "";
+    $("#cidade").value = "";          // com GPS, o mais perto pode estar na cidade vizinha
     botao.classList.add("ativo");
     rotulo.textContent = "Usando sua localização";
-    limite = 30;
-    desenhar();
+    mostrar();
   }, erro => {
     rotulo.textContent = "Usar minha localização";
     $("#status").textContent = erro.code === 1
@@ -160,10 +176,8 @@ $("#btn-local").addEventListener("click", () => {
 });
 
 // escolher cidade filtra, mas com GPS ligado a distancia continua medida de voce
-$("#cidade").addEventListener("change", () => {
-  limite = 30;
-  desenhar();
-});
+$("#cidade").addEventListener("change", mostrar);
+$("#btn-ver").addEventListener("click", mostrar);
 ["#f-h24", "#f-zap"].forEach(s => $(s).addEventListener("change", () => { limite = 30; desenhar(); }));
 $("#mais").addEventListener("click", () => { limite += 30; desenhar(); });
 
@@ -174,9 +188,13 @@ $("#mais").addEventListener("click", () => { limite += 30; desenhar(); });
     const r = await fetch("dados.json", {cache: "no-cache"});
     const dados = await r.json();
     todos = dados.guinchos;
-    const cidades = [...new Set(todos.map(g => g.c))].sort((a, b) => a.localeCompare(b, "pt-BR"));
-    $("#cidade").innerHTML = '<option value="">Todas as cidades de MS</option>'
-      + cidades.map(c => `<option>${esc(c)}</option>`).join("");
+    // Campo Grande primeiro e ja escolhida: e a capital e onde esta a maioria
+    const cidades = [...new Set(todos.map(g => g.c))]
+      .filter(c => c !== "Campo Grande").sort((a, b) => a.localeCompare(b, "pt-BR"));
+    $("#cidade").innerHTML = '<option>Campo Grande</option>'
+      + cidades.map(c => `<option>${esc(c)}</option>`).join("")
+      + '<option value="">Todo o Mato Grosso do Sul</option>';
+    $("#cidade").value = "Campo Grande";
     $("#atualizado").textContent = `Lista atualizada em ${dados.atualizado}.`;
     desenhar();
   } catch {

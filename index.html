@@ -58,8 +58,14 @@
       <span>Usar minha localização</span>
     </button>
     <div class="ou">ou escolha a cidade</div>
-    <select id="cidade" aria-label="Cidade"><option value="">Todas as cidades de MS</option></select>
+    <div class="escolha">
+      <select id="cidade" aria-label="Cidade"><option>Campo Grande</option></select>
+      <button id="btn-ver" class="btn-ver">Ver guinchos</button>
+    </div>
 
+    <p id="status" class="status" aria-live="polite"></p>
+
+    <div id="resultados" hidden>
     <div class="filtros">
       <label class="chip"><input type="checkbox" id="f-h24"> 24 horas</label>
       <label class="chip"><input type="checkbox" id="f-zap"> WhatsApp</label>
@@ -70,10 +76,10 @@
       <button data-vista="mapa" role="tab">Mapa</button>
     </div>
 
-    <p id="status" class="status" aria-live="polite"></p>
     <div id="lista" class="lista"></div>
     <div id="mapa-caixa" class="mapa-caixa" hidden><div id="mapa"></div></div>
     <button id="mais" class="mais" hidden>Mostrar mais</button>
+    </div>
   </section>
 
   <!-- ------------------------------------------------------- instalar -->
@@ -88,7 +94,8 @@
   <img src="img/concha.svg" alt="" class="concha">
   <p class="assina">Oferecimento <b>Imperatriz Corretora de Seguros</b><br>Há 35 anos cuidando de seguros em Campo Grande.</p>
   <div class="contato">
-    <a href="tel:+556733820100" class="btn-rod">(67) 3382-0100</a>
+    <a href="https://wa.me/5567984090410?text=Ol%C3%A1!%20Vim%20pelo%20app%20Guincho%20MS%20e%20quero%20falar%20sobre%20seguro." target="_blank" rel="noopener" class="btn-rod btn-rod-zap">WhatsApp (67) 98409-0410</a>
+    <a href="tel:+5567984090410" class="btn-rod">Ligar</a>
     <a href="https://www.instagram.com/imperatrizseguros" target="_blank" rel="noopener" class="btn-rod">@imperatrizseguros</a>
   </div>
   <p class="aviso">Lista montada a partir de informações públicas do Google Maps. A Imperatriz não presta nem

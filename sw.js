@@ -2,7 +2,7 @@
    na estrada sem 4G. A lista (dados.json) tenta a rede primeiro e cai no que
    ficou salvo; o resto do app vem do cache. Mudou algum arquivo do app?
    Suba a VERSAO para os celulares pegarem a nova. */
-const VERSAO = "guincho-ms-v2";
+const VERSAO = "guincho-ms-v4";
 const APP = ["./", "index.html", "app.css", "app.js", "manifest.webmanifest", "dados.json",
   "img/logo-horizontal.svg", "img/concha.svg", "img/icone-192.png", "img/icone-512.png"];
 
