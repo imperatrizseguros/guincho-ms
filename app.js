@@ -204,7 +204,16 @@ $("#mais").addEventListener("click", () => { limite += 30; desenhar(); });
 
 /* ------------------------------------------------------ instalar / offline */
 if ("serviceWorker" in navigator && window.isSecureContext) {
-  navigator.serviceWorker.register("sw.js").catch(() => {});
+  // versao nova assumiu: recarrega uma vez para a pessoa ja ver a atualizacao
+  const tinhaVersao = !!navigator.serviceWorker.controller;
+  let recarregou = false;
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (!tinhaVersao || recarregou) return;
+    recarregou = true;
+    location.reload();
+  });
+  navigator.serviceWorker.register("sw.js", {updateViaCache: "none"})
+    .then(reg => reg.update()).catch(() => {});
 }
 const instalado = matchMedia("(display-mode: standalone)").matches || navigator.standalone;
 let pedidoInstalar = null;
