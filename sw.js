@@ -5,7 +5,7 @@
    ficou salvo so entra sem sinal. Na v1 era cache primeiro e a atualizacao so
    aparecia na segunda abertura -- quem testou achou que nao tinha atualizado.
    Mudou algum arquivo do app? Suba a VERSAO. */
-const VERSAO = "guincho-ms-v5";
+const VERSAO = "guincho-ms-v6";
 const APP = ["./", "index.html", "app.css", "app.js", "manifest.webmanifest", "dados.json",
   "img/logo-horizontal.svg", "img/concha.svg", "img/icone-192.png", "img/icone-512.png"];
 

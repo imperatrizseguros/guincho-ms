@@ -101,6 +101,25 @@ select{width:100%;min-height:48px;padding:0 12px;border:1px solid var(--borda);b
 .leaflet-popup-content{font:14px/1.45 "Plus Jakarta Sans",system-ui,sans-serif;margin:12px 14px}
 .leaflet-popup-content .b{min-height:38px;margin-top:8px;font-size:13.5px}
 
+/* cliente imperatriz */
+.bloco.cliente{border:2px solid var(--ouro);background:#fffdf3}
+.bloco.cliente > p{margin:6px 0 14px;font-size:14.5px;color:var(--fraco)}
+.sim-nao{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.b-sim{background:var(--grafite);color:#fff;min-height:52px;font-size:17px}
+.b-nao{background:#fff;color:var(--grafite);border:1.5px solid var(--grafite);min-height:52px;font-size:17px}
+.nao-cliente{margin-top:14px;font-size:14.5px;color:var(--texto)}
+.nao-cliente p{margin:0 0 10px}
+.link-conhecer{font-weight:700;color:var(--grafite);text-decoration:none;border-bottom:2px solid var(--ouro)}
+
+/* emergencia */
+.bloco.emergencia > p{margin:6px 0 12px;font-size:14px;color:var(--fraco)}
+.emerg{display:grid;grid-template-columns:1fr;gap:8px}
+.emerg a{display:flex;align-items:center;gap:10px;min-height:56px;padding:8px 12px;border-radius:12px;
+  border:1px solid var(--borda);text-decoration:none;color:var(--texto);background:#fff}
+.emerg .n{font-size:22px;font-weight:800;color:#c0392b;min-width:44px}
+.emerg .t{font-size:13.5px;line-height:1.25;font-weight:600}
+.emerg .t small{display:inline;margin-left:6px;font-weight:400;color:var(--fraco);font-size:12px}
+
 .instalar p{margin:6px 0 12px;font-size:14.5px;color:var(--fraco)}
 
 .rodape{background:var(--escuro);color:#d7d8da;text-align:center;padding:28px 18px;

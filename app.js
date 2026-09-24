@@ -19,6 +19,38 @@ const ICONE_TEL = '<svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6
 const ICONE_ROTA = '<svg viewBox="0 0 24 24"><path d="M21.7 11.3l-9-9a1 1 0 0 0-1.4 0l-9 9a1 1 0 0 0 0 1.4l9 9a1 1 0 0 0 1.4 0l9-9a1 1 0 0 0 0-1.4zM14 14.5V12h-4v3H8v-4a1 1 0 0 1 1-1h5V7.5l3.5 3.5z"/></svg>';
 const ICONE_ZAP ='<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.3 0 .5l-.3.5-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l2 .9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>';
 
+/* ---------------------------------------------------- cliente imperatriz */
+// WhatsApp de atendimento da Imperatriz. A frase "(app Guincho MS)" e o
+// gatilho que acorda o assistente automatico a qualquer hora -- tem que ser
+// igual a TEXTO_BOTAO_APP no robo (robo-imperatriz/cerebro.py).
+const ZAP_IMPERATRIZ = "5567984090410";
+const TEXTO_CLIENTE = "Sou cliente Imperatriz e preciso de assistência 24h. (app Guincho MS)";
+// sem o gatilho: vai para a equipe como lead (fora do horario, o robo so avisa que fechou)
+const TEXTO_CONHECER = "Olá! Não sou cliente e vim pelo app Guincho MS. Quero conhecer os seguros da Imperatriz.";
+const zapLink = (numero, texto) => `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
+
+$("#btn-sim").href = zapLink(ZAP_IMPERATRIZ, TEXTO_CLIENTE);
+$("#btn-conhecer").href = zapLink(ZAP_IMPERATRIZ, TEXTO_CONHECER);
+$("#btn-nao").addEventListener("click", () => {
+  $("#nao-cliente").hidden = false;
+  $("#btn-nao").classList.add("ativo");
+  setTimeout(() => $("#seguradoras-bloco").scrollIntoView({behavior: "smooth", block: "start"}), 350);
+});
+
+/* ------------------------------------------------------------ emergencia */
+const EMERGENCIA = [
+  {n: "190", t: "Polícia Militar"},
+  {n: "191", t: "Polícia Rodoviária Federal", s: "rodovias federais"},
+  {n: "192", t: "SAMU", s: "acidente com ferido"},
+  {n: "193", t: "Corpo de Bombeiros"},
+  {n: "159", t: "Juizado de Trânsito", s: "Campo Grande"},
+];
+$("#emergencia").innerHTML = EMERGENCIA.map(e => `
+  <a href="tel:${e.n}" aria-label="Ligar para ${esc(e.t)}, ${e.n}">
+    <span class="n">${e.n}</span>
+    <span class="t">${esc(e.t)}${e.s ? `<small>${esc(e.s)}</small>` : ""}</span>
+  </a>`).join("");
+
 /* ------------------------------------------------------------ seguradoras */
 $("#seguradoras").innerHTML = SEGURADORAS.map(s => `
   <div class="seg">

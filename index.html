@@ -30,8 +30,23 @@
     <a href="#guinchos" class="pular">Não tem seguro? Ir direto para os guinchos ↓</a>
   </section>
 
+  <!-- ------------------------------------------------ cliente imperatriz -->
+  <section class="bloco cliente" id="cliente">
+    <h2>É cliente Imperatriz?</h2>
+    <p>Nosso assistente no WhatsApp localiza o seu seguro e passa o contato da assistência 24h.</p>
+    <div class="sim-nao">
+      <a id="btn-sim" class="b b-sim" target="_blank" rel="noopener">Sim</a>
+      <button id="btn-nao" class="b b-nao">Não</button>
+    </div>
+    <div id="nao-cliente" class="nao-cliente" hidden>
+      <p>Sem problema! Tem seguro em outra corretora? Ligue para a assistência da sua
+         seguradora logo abaixo. Sem seguro? Os guinchos particulares estão em seguida.</p>
+      <a id="btn-conhecer" class="link-conhecer" target="_blank" rel="noopener">Quer conhecer os seguros da Imperatriz? Fale com a gente ›</a>
+    </div>
+  </section>
+
   <!-- ---------------------------------------------------- seguradoras -->
-  <section class="bloco seguro">
+  <section class="bloco seguro" id="seguradoras-bloco">
     <div class="bloco-cab">
       <span class="num">1</span>
       <div>
@@ -80,6 +95,13 @@
     <div id="mapa-caixa" class="mapa-caixa" hidden><div id="mapa"></div></div>
     <button id="mais" class="mais" hidden>Mostrar mais</button>
     </div>
+  </section>
+
+  <!-- ------------------------------------------------------ emergencia -->
+  <section class="bloco emergencia">
+    <h2>Emergência e utilidade pública</h2>
+    <p>Acidente com ferido, risco ou crime: ligue primeiro para quem socorre.</p>
+    <div class="emerg" id="emergencia"></div>
   </section>
 
   <!-- ------------------------------------------------------- instalar -->
