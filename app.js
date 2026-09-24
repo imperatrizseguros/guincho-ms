@@ -3,12 +3,16 @@
 /* Assistencia 24h das seguradoras. Confirmar os numeros de tempos em tempos:
    seguradora muda central sem avisar. */
 const SEGURADORAS = [
-  {nome: "Porto",    tel: "08007270800", telFmt: "0800 727 0800",  zap: "551130039303", zapFmt: "(11) 3003-9303"},
+  // Azul e Itau sao do grupo Porto: mesma central
+  {nome: "Porto · Azul · Itaú", tel: "08007270800", telFmt: "0800 727 0800", zap: "551130039303", zapFmt: "(11) 3003-9303"},
   {nome: "Tokio",    tel: "08003186546", telFmt: "0800 31 86546",  zap: "5511995786546", zapFmt: "(11) 99578-6546"},
   {nome: "Allianz",  tel: "40901110",    telFmt: "4090 1110",      zap: "551140901444", zapFmt: "(11) 4090-1444"},
   {nome: "Bradesco", tel: "08007012757", telFmt: "0800 701 2757",  zap: "551130031022", zapFmt: "(11) 3003-1022"},
   {nome: "HDI",      tel: "03005390",    telFmt: "0300 5390",      zap: "551155020700", zapFmt: "(11) 5502-0700"},
   {nome: "Yelum",    tel: "40045423",    telFmt: "4004 5423",      zap: "551131321001", zapFmt: "(11) 3132-1001"},
+  {nome: "Zurich",   tel: "08002854141", telFmt: "0800 285 4141",  zap: "551128902121", zapFmt: "(11) 2890-2121"},
+  {nome: "Suhai",    tel: "08003278424", telFmt: "0800 327 8424",  zap: "5511971246925", zapFmt: "(11) 97124-6925"},
+  {nome: "Allseg",   tel: "08007711115", telFmt: "0800 771 1115",  zap: "551129557933", zapFmt: "(11) 2955-7933"},
 ];
 
 const $ = s => document.querySelector(s);
