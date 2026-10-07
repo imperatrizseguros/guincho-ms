@@ -27,7 +27,7 @@ const ICONE_ZAP ='<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2
 // WhatsApp de atendimento da Imperatriz. A frase "(app Guincho MS)" e o
 // gatilho que acorda o assistente automatico a qualquer hora -- tem que ser
 // igual a TEXTO_BOTAO_APP no robo (robo-imperatriz/cerebro.py).
-const ZAP_IMPERATRIZ = "5567984090410";
+const ZAP_IMPERATRIZ = "5567984091070";
 const TEXTO_CLIENTE = "Sou cliente Imperatriz e preciso de assistência 24h. (app Guincho MS)";
 // sem o gatilho: vai para a equipe como lead (fora do horario, o robo so avisa que fechou)
 const TEXTO_CONHECER = "Olá! Não sou cliente e vim pelo app Guincho MS. Quero conhecer os seguros da Imperatriz.";
@@ -71,6 +71,15 @@ let todos = [];
 let voce = null;            // {lat, lon} do GPS
 let limite = 30;
 let vista = "lista";
+let tipo = "g";             // g = guincho, b = borracharia ("a" no dados.json = os dois)
+const TIPOS = {
+  g: {um: "guincho", varios: "guinchos", zap: "Preciso de um guincho",
+      tit: "Sem seguro ou fora da cobertura: guincho particular",
+      sub: "Informações públicas do Google Maps. Combine o valor antes de o guincho sair."},
+  b: {um: "borracharia", varios: "borracharias", zap: "Preciso de uma borracharia",
+      tit: "Pneu furado? Borracharia perto de você",
+      sub: "Por enquanto só Campo Grande. Informações públicas do Google Maps — confirme se atende no local."},
+};
 
 function distancia(a, b, c, d) {
   const r = 6371, rad = Math.PI / 180;
@@ -81,7 +90,7 @@ function distancia(a, b, c, d) {
 
 function filtrados() {
   const cidade = $("#cidade").value, h24 = $("#f-h24").checked, zap = $("#f-zap").checked;
-  let l = todos.filter(g => (!cidade || g.c === cidade) && (!h24 || g.h) && (!zap || celular(g.t)));
+  let l = todos.filter(g => [tipo, "a"].includes(g.k || "g") && (!cidade || g.c === cidade) && (!h24 || g.h) && (!zap || celular(g.t)));
   if (voce) {
     l.forEach(g => g.km = distancia(voce.lat, voce.lon, g.la, g.lo));
     // parceiro Imperatriz ganha 5 km de vantagem sobre um desconhecido
@@ -109,10 +118,10 @@ function cartao(g) {
       ${g.a ? `<span>★ ${String(g.r).replace(".", ",")} (${g.a})</span>` : ""}
     </div>
     <div class="fone">${esc(fmtFone(g.t))}</div>
-    <div class="acoes ${zap ? "" : "sem-zap"}">
+    <div class="acoes ${zap ? "" : "sem-zap"} ${g.x ? "sem-rota" : ""}">
       <a class="b b-ligar" href="tel:+${g.t}">${ICONE_TEL}Ligar</a>
-      ${zap ? `<a class="b b-zap" href="https://wa.me/${g.t}?text=${encodeURIComponent("Olá! Preciso de um guincho. Vi seu contato no app Guincho MS da Imperatriz Seguros.")}" target="_blank" rel="noopener">${ICONE_ZAP}WhatsApp</a>` : ""}
-      <a class="b b-rota" href="${rota}" target="_blank" rel="noopener" aria-label="Rota até ${esc(g.n)}" title="Rota">${ICONE_ROTA}</a>
+      ${zap ? `<a class="b b-zap" href="https://wa.me/${g.t}?text=${encodeURIComponent(`Olá! ${TIPOS[tipo].zap}. Vi seu contato no app Guincho MS da Imperatriz Seguros.`)}" target="_blank" rel="noopener">${ICONE_ZAP}WhatsApp</a>` : ""}
+      ${g.x ? "" : `<a class="b b-rota" href="${rota}" target="_blank" rel="noopener" aria-label="Rota até ${esc(g.n)}" title="Rota">${ICONE_ROTA}</a>`}
     </div>
   </article>`;
 }
@@ -132,15 +141,16 @@ function mostrar() {
 function desenhar() {
   if (!escolheu) {
     $("#status").textContent = todos.length
-      ? "Toque em “Usar minha localização” ou escolha a cidade e toque em “Ver guinchos”." : "";
+      ? "Toque em “Usar minha localização” ou escolha a cidade e toque em “Ver lista”." : "";
     return;
   }
   const l = filtrados();
-  const cidade = $("#cidade").value;
+  const cidade = $("#cidade").value, t = TIPOS[tipo];
   $("#status").textContent = !todos.length ? ""
-    : !l.length ? "Nenhum guincho com esses filtros. Tente tirar um filtro ou escolher outra cidade."
-    : voce ? `${l.length} guinchos${cidade ? " em " + cidade : ""}, do mais perto para o mais longe.`
-    : `${l.length} guinchos${cidade ? " em " + cidade : " em MS"}. Use sua localização para ver o mais perto.`;
+    : !l.length ? (tipo === "b" ? "Nenhuma borracharia nesta cidade ainda. Por enquanto só temos Campo Grande."
+                                : "Nenhum guincho com esses filtros. Tente tirar um filtro ou escolher outra cidade.")
+    : voce ? `${l.length} ${t.varios}${cidade ? " em " + cidade : ""}, do mais perto para o mais longe.`
+    : `${l.length} ${t.varios}${cidade ? " em " + cidade : " em MS"}. Use sua localização para ver o mais perto.`;
   $("#lista").innerHTML = l.slice(0, limite).map(cartao).join("");
   $("#mais").hidden = vista !== "lista" || l.length <= limite;
   if (vista === "mapa") desenharMapa(l);
@@ -160,7 +170,7 @@ function desenharMapa(l) {
   if (camada) camada.remove();
   camada = L.layerGroup().addTo(mapa);
   const pontos = [];
-  for (const g of l) {
+  for (const g of l.filter(g => !g.x)) {   // sem endereco: fica so na lista
     const cls = g.p ? "pino parc" : g.h ? "pino h24" : "pino";
     const tam = g.p ? 24 : 20;
     L.marker([g.la, g.lo], {icon: L.divIcon({className: "", html: `<div class="${cls}"></div>`,
@@ -181,8 +191,17 @@ function desenharMapa(l) {
   }
 }
 
-document.querySelectorAll(".alternar button").forEach(b => b.addEventListener("click", () => {
-  document.querySelectorAll(".alternar button").forEach(x => x.classList.toggle("ativo", x === b));
+document.querySelectorAll(".alternar.tipo button").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".alternar.tipo button").forEach(x => x.classList.toggle("ativo", x === b));
+  tipo = b.dataset.tipo;
+  $("#tit-lista").textContent = TIPOS[tipo].tit;
+  $("#sub-lista").textContent = TIPOS[tipo].sub;
+  limite = 30;
+  desenhar();
+}));
+
+document.querySelectorAll("[data-vista]").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll("[data-vista]").forEach(x => x.classList.toggle("ativo", x === b));
   vista = b.dataset.vista;
   $("#lista").hidden = vista !== "lista";
   $("#mapa-caixa").hidden = vista !== "mapa";
@@ -219,7 +238,7 @@ $("#mais").addEventListener("click", () => { limite += 30; desenhar(); });
 
 /* --------------------------------------------------------------- carga */
 (async () => {
-  $("#status").textContent = "Carregando guinchos…";
+  $("#status").textContent = "Carregando a lista…";
   try {
     const r = await fetch("dados.json", {cache: "no-cache"});
     const dados = await r.json();

@@ -87,6 +87,8 @@ select{width:100%;min-height:48px;padding:0 12px;border:1px solid var(--borda);b
 .g .acoes{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 48px;gap:7px}
 .g .acoes .b{width:100%;padding:0 8px}
 .g .acoes.sem-zap{grid-template-columns:minmax(0,1fr) 48px}
+.g .acoes.sem-rota{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.g .acoes.sem-zap.sem-rota{grid-template-columns:minmax(0,1fr)}
 .b-rota svg{width:22px;height:22px}
 
 .mais{width:100%;min-height:46px;margin-top:10px;border:1px solid var(--borda);background:#fff;border-radius:10px;
@@ -142,3 +144,8 @@ select{width:100%;min-height:48px;padding:0 12px;border:1px solid var(--borda);b
 .btn-cotacao{display:flex;align-items:center;justify-content:center;width:100%;min-height:54px;border-radius:12px;
   background:var(--ouro);color:var(--grafite);font-weight:800;font-size:16px;text-decoration:none}
 .btn-cotacao:active{transform:translateY(1px)}
+
+/* guincho x borracharia (topo do bloco 2) */
+.alternar.tipo{margin-bottom:14px}
+.alternar.tipo button{min-height:46px;font-size:15.5px;font-weight:700}
+.alternar.tipo button.ativo{background:var(--grafite);color:#fff}
