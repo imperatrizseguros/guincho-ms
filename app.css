@@ -134,3 +134,11 @@ select{width:100%;min-height:48px;padding:0 12px;border:1px solid var(--borda);b
 .aviso{font-size:12px;color:#9a9da1;max-width:520px;margin:18px auto 0;line-height:1.55}
 
 @media (min-width:700px){ .hero h1{font-size:36px} }
+
+/* cotacao de seguro auto (formulario em imperatrizseguros.github.io/cotacao-auto) */
+.cotacao{border-top:4px solid var(--ouro)}
+.cotacao h2{margin:0;font-size:17.5px;color:var(--grafite)}
+.cotacao p{margin:6px 0 14px;font-size:14.5px;color:var(--fraco)}
+.btn-cotacao{display:flex;align-items:center;justify-content:center;width:100%;min-height:54px;border-radius:12px;
+  background:var(--ouro);color:var(--grafite);font-weight:800;font-size:16px;text-decoration:none}
+.btn-cotacao:active{transform:translateY(1px)}
